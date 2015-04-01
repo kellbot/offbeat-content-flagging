@@ -16,9 +16,10 @@ class OffbeatContentFlagging {
 		add_action( 'wp_ajax_ocf_send_flag', array( $this, 'send_flag'));
 
 		//the buttons themselves
-		add_filter( 'comment_text', array( $this, 'append_button_for_comment'));
+		add_filter( 'comment_reply_link', array( $this, 'append_button_for_comment'));
 
-		add_filter( 'bbp_get_reply_content', array( $this, 'append_button_for_post') );
+		add_action( 'bbp_theme_after_topic_content', array( $this, 'echo_button_for_post'), 20 );
+		add_action( 'bbp_theme_after_reply_content', array( $this, 'echo_button_for_post'), 20 );
 
 	}
 
@@ -128,6 +129,10 @@ class OffbeatContentFlagging {
 			  	</form>
 		  </div>
   		<?
+	}
+
+	function echo_button_for_post(){
+		echo $this->append_button_for_post('');
 	}
 
 	function append_button_for_post($content) {
